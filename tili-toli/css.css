@@ -1,0 +1,126 @@
+body {
+    /*background-color: red;*/
+    /* For browsers that do not support gradients */
+    background-image: linear-gradient(#123456, #008cff);
+    background-attachment: fixed;
+}
+
+td {
+    margin-left: -50px;
+}
+
+th {
+    margin-left: -50px;
+}
+
+.btn {
+    background-color: #0084ff;
+    /* Green */
+    border: none;
+    width: 200px;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 2px;
+}
+
+.kc {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    /* 5px rounded corners */
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: auto;
+    padding-bottom: 2%;
+}
+
+.kc #main {
+    box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.2);
+    transition: 0.5s;
+    background-color: transparent;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.kc:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.tbb th {
+    width: 7%;
+    margin-left: 50%;
+    margin-top: 50px;
+}
+
+.hover-show {
+    overflow: hidden;
+    max-height: 0px;
+    max-width: 0px;
+    -o-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+.hover-show-alap:hover .hover-show {
+    max-height: 240px;
+    height: 100%;
+    max-width: 100%;
+}
+
+.hover-show-alap:hover {
+    width: 70%;
+}
+
+.hover-show-alap {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: all .2s ease-in-out;
+    border-radius: 5px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 10%;
+    background-image: linear-gradient(#00a6ff, #009dff);
+}
+
+#slider-cntnr {
+    width: 50%;
+    margin: 40px;
+    position: relative;
+}
+
+#frame-slider {
+    width: 100%;
+    margin: 0;
+}
+
+#slider-val-cntnr {
+    background-color: transparent;
+    width: 25px;
+    height: 20px;
+}
+
+#slider-cntnr2 {
+    width: 50%;
+    margin: 40px;
+    position: relative;
+}
+
+#frame-slider2 {
+    width: 100%;
+    margin: 0;
+}
+
+#slider-val-cntnr2 {
+    background-color: transparent;
+    width: 25px;
+    height: 20px;
+}

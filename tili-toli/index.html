@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+
+<body onload="document.getElementById('slider-val').innerHTML = 3; document.getElementById('slider-val2').innerHTML = 50">
+
+    <!--<img id="pp" alt="image" src="asd.png">-->
+
+    <br>
+
+    <div class="kc" id="kc">
+        <table id="main">
+
+        </table>
+    </div>
+    <div class="settings">
+        <!--<div class="content">
+            <label class="label"><br>Keverések Száma: </label>
+            <div class="slidecontainer">
+                <input type="range" min="1" max="200" value="150" class="slider" id="ksz">
+
+                <label class="lable"><br><br>Keverés Gyorsasága: </label>
+
+                <input type="range" min="1" max="100" value="10" class="slider" id="kgy">
+            </div>
+        </div>-->
+
+        <div style="height:0px;overflow:hidden">
+            <input type="file" id="fileInput" name="fileInput" accept="image/*" />
+        </div>
+
+        <div class="hover-show-alap">
+            <h2>Beállítások</h2>
+            <div class="hover-show">
+                <table class="tbb">
+                    <tr>
+                        <th>
+                            <button type="button" class="btn" onclick="chooseFile();">Kép Kiválasztása</button>
+                            <h4>Választás Meglévő Képekből: <br></h4>
+                            <img src="kep1.png" width="84px" height="48px" onclick="kep1()">
+                            <img src="kep2.png" width="84px" height="48px" onclick="kep2()">
+                            <img src="kep3.png" width="84px" height="48px" onclick="kep3()">
+
+                        </th>
+                        <th>
+                            <div class="slidecontainer">
+                                <label class="label">Kép Felvágása:</label>
+                                <input type="range" id="frame-slider" onchange="updateImageSize(this.value);" oninput="document.getElementById('slider-val').innerHTML = this.value" value="3" min="1" max="32" />
+                                <div id="slider-val-cntnr">
+                                    <span id="slider-val"></span>
+                                </div>
+
+                                <label class="lable">Keverések Száma: </label>
+                                <input type="range" id="frame-slider2" onchange="keveresszam=parseInt(this.value * ta);" oninput="document.getElementById('slider-val2').innerHTML = this.value" value="50" min="3" max="100" />
+                                <div id="slider-val-cntnr2">
+                                    <span id="slider-val2"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="gomb">
+                                <button onClick="keveres()" class="btn">Keverés</button>
+                            </div>
+                            <div class="gomb">
+                                <button onClick="kirakas()" class="btn">Kirakás</button>
+                            </div>
+                        </th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div style="height:0px;overflow:hidden">
+            <img alt="asd" id="ktest">
+        </div>
+
+    </div>
+
+    <script src="js.js"></script>
+</body>
+
+</html>
