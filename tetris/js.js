@@ -3,14 +3,15 @@ var tsc = 15;
 var tr = new Array(tsr);
 var tb = document.getElementById('main'); //Táblázat
 
-var tsr2 = 6;
-var tsc2 = 6;
+var tsr2 = 5;
+var tsc2 = 5;
 var tr2 = new Array(tsc2);
 var tb2 = document.getElementById('mutato'); //Táblázat
 
 
 var ceses = [];
 var obj = 0;
+var nobj = 0;
 
 let cszin = "smi";
 
@@ -68,7 +69,8 @@ function addElement() {
     for (var i = 0; i < tsc2 * tsr2; i++) {
         if (!document.getElementById("mutato" + i).classList.contains("oldal2")) {
             document.getElementById("mutato" + i).classList = "";
-            document.getElementById("mutato" + i).style.backgroundColor = " #7a7a7a";
+            //document.getElementById("mutato" + i).style.backgroundColor = " #7a7a7a";
+            document.getElementById("mutato" + i).childNodes[0].childNodes[1].classList = "centered";
         }
     }
     if (ncount == 1) {
@@ -119,64 +121,65 @@ function nextElement(typee, rszine) {
     switch (typee) {
         case 0:
             //J
-            obj = 13;
-            neses.push(obj + 2 + tsc2);
-            neses.push(obj + 2);
-            neses.push(obj + 1);
-            neses.push(obj);
+            nobj = 11;
+            neses.push(nobj + 2 + tsc2);
+            neses.push(nobj + 2);
+            neses.push(nobj + 1);
+            neses.push(nobj);
             break;
         case 1:
             //L
-            obj = 13;
-            neses.push(obj + tsc2);
-            neses.push(obj + 2);
-            neses.push(obj + 1);
-            neses.push(obj);
+            nobj = 11;
+            neses.push(nobj + tsc2);
+            neses.push(nobj + 2);
+            neses.push(nobj + 1);
+            neses.push(nobj);
             break;
         case 2:
             //I
-            obj = 8;
-            neses.push(obj);
-            neses.push(obj + tsc2);
-            neses.push(obj + tsc2 + tsc2);
-            neses.push(obj + tsc2 + tsc2 + tsc2);
+            nobj = 7;
+            neses.push(nobj);
+            neses.push(nobj + tsc2);
+            neses.push(nobj + tsc2 + tsc2);
+            neses.push(nobj + tsc2 + tsc2 + tsc2);
             break;
         case 3:
             //o
-            obj = 14;
-            neses.push(obj);
-            neses.push(obj + 1);
-            neses.push(obj + tsc2 + 1);
-            neses.push(obj + tsc2);
+            nobj = 6;
+            neses.push(nobj);
+            neses.push(nobj + 1);
+            neses.push(nobj + tsc2 + 1);
+            neses.push(nobj + tsc2);
             break;
         case 4:
             //S
-            obj = 21;
-            neses.push(obj + tsc2);
-            neses.push(obj + tsc2 + 1);
-            neses.push(obj + 1);
-            neses.push(obj);
+            nobj = 16;
+            neses.push(nobj + tsc2);
+            neses.push(nobj + tsc2 + 1);
+            neses.push(nobj + 1);
+            neses.push(nobj);
             break;
         case 5:
             //Z
-            obj = 13
-            neses.push(obj + tsc2 + 1);
-            neses.push(obj + tsc2 + 2);
-            neses.push(obj + 1);
-            neses.push(obj);
+            nobj = 13;
+            neses.push(nobj + tsc2 + 1);
+            neses.push(nobj + tsc2 + 2);
+            neses.push(nobj + 1);
+            neses.push(nobj);
             break;
         case 6:
             //T
-            obj = 13
-            neses.push(obj + tsc2 + 2);
-            neses.push(obj + tsc2 + 1);
-            neses.push(obj + tsc2);
-            neses.push(obj + 1);
+            nobj = 13;
+            neses.push(nobj + tsc2 + 2);
+            neses.push(nobj + tsc2 + 1);
+            neses.push(nobj + tsc2);
+            neses.push(nobj + 1);
             break;
     }
 
     for (var i = 0; i < neses.length; i++) {
-        document.getElementById("mutato" + neses[i]).classList.add(cszin);
+        //document.getElementById("mutato" + neses[i]).classList.add(cszin);
+        document.getElementById("mutato" + neses[i]).childNodes[0].childNodes[1].classList.add(cszin);
     }
     return;
 }
@@ -397,7 +400,7 @@ function start() {
             tr2[i][j].style.backgroundColor = '#7a7a7a';
             tr2[i][j].classList.add("hatter");
 
-            if (i == 0) {
+            /*if (i == 0) {
                 tr2[i][j].style.backgroundColor = '#3d3d3d';
                 tr2[i][j].classList.add("oldal2");
                 tr2[i][j].classList.add("fenti2");
@@ -421,7 +424,7 @@ function start() {
                     //tr[i][j].classList.add("jobboldal");
                     tr2[i][j].classList.remove("hatter");
                 }
-            }
+            }*/
 
             tr2[i][j].appendChild(contCell);
             contCell.appendChild(imageCell);
@@ -995,22 +998,6 @@ var csorcount = 0;
 var upcount = 0;
 
 function lefele() {
-    szin = cszin;
-    for (var j = 0; j < ceses.length; j++) {
-        if (document.getElementById(ceses[j] + tsc).classList.contains("leesett") || document.getElementById(ceses[j] + tsc).classList.contains("oldal")) {
-            for (var i = 0; i < ceses.length; i++) {
-                document.getElementById(ceses[i]).classList.add("leesett");
-                document.getElementById(ceses[i]).classList.remove("hatter");
-            }
-            ceses = [];
-            forg = 0;
-            tryforg = 0;
-            addElement();
-        }
-    }
-    for (var j = 0; j < ceses.length; j++) {
-        ceses[j] = ceses[j] + tsc;
-    }
     for (var i = 0; i < tsr; i++) {
         for (var j = 0; j < tsc; j++) {
             if (tr[i][j].classList.contains("leesett"))
@@ -1026,14 +1013,13 @@ function lefele() {
         csorcount = 0;
     }
 
-    for (var i = 0; i < 3; i++) {
-        for (var j = 0; j < tsc; j++) {
-            //console.log(tr[i][j].classList.contains("leesett"));
-            if (tr[i][j].classList.contains("leesett"))
-                upcount += 1;
-            //telesor[i] += 1;
-        }
-        if (upcount >= 2) {
+    for (var i = 0; i < 5; i++) {
+        //console.log(tr[i][j].classList.contains("leesett"));
+        var cnez = 19 + i;
+        var cnez2 = 35 + i;
+        if (document.getElementById(cnez).classList.contains("leesett") || document.getElementById(cnez2).classList.contains("leesett"))
+            upcount = 1;
+        if (upcount >= 1) {
             //console.log("vege");
             clearInterval(binterval);
             clearInterval(einterval);
@@ -1041,6 +1027,23 @@ function lefele() {
         }
         //console.log("Sor: " + tsr + " szam: " + upcount);
         upcount = 0;
+    }
+
+    for (var j = 0; j < ceses.length; j++) {
+        if (document.getElementById(ceses[j] + tsc).classList.contains("leesett") || document.getElementById(ceses[j] + tsc).classList.contains("oldal")) {
+            for (var i = 0; i < ceses.length; i++) {
+                document.getElementById(ceses[i]).classList.add("leesett");
+                document.getElementById(ceses[i]).classList.remove("hatter");
+            }
+            ceses = [];
+            forg = 0;
+            tryforg = 0;
+            addElement();
+            return;
+        }
+    }
+    for (var j = 0; j < ceses.length; j++) {
+        ceses[j] = ceses[j] + tsc;
     }
 }
 
