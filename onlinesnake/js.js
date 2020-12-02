@@ -381,15 +381,10 @@ binterval = setInterval(function() {
     }
 }, 3000);
 
-einterval = setInterval(function() {
-    if (pause == false) {
-        sendConnection();
-    }
-}, 200);
-
 cinterval = setInterval(function() {
     if (pause == false) {
         gamemain();
+        sendConnection();
 
         //console.log(chely.length);
 
