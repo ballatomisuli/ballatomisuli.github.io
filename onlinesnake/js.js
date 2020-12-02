@@ -20,8 +20,8 @@ var pontok = 0;
 var enidm = Math.floor(Math.random() * 10000000);
 
 var webconnection = new WebConnection({
-    publishKey: 'demo',
-    subscribeKey: 'demo'
+    publishKey: 'pub-c-687ad61e-1d40-47c1-97e3-159673a865b7',
+    subscribeKey: 'sub-c-08e2f2cc-34cf-11eb-b6eb-96faa39b9528'
 });
 
 function $(id) {
