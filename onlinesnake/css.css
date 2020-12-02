@@ -1,0 +1,68 @@
+body {
+    /*background-color: red;*/
+    /* For browsers that do not support gradients */
+    background-image: linear-gradient(#123456, #008cff);
+    background-attachment: fixed;
+    zoom: 90%;
+}
+
+#t1 {
+    width: 37.5%;
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+h2 {
+    font-family: Consolas, monaco, monospace;
+    background: linear-gradient(to right, #bdbdbd, #a6a6a6);
+}
+
+a {
+    font-size: 175%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    /* 5px rounded corners */
+    margin-left: auto;
+    background: -webkit-linear-gradient(#ebae34, #e01a00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.maindiv {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    /* 5px rounded corners */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.maindiv #main {
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.maindiv:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn {
+    background-color: #0084ff;
+    /* Green */
+    border: none;
+    width: 200px;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 2px;
+}

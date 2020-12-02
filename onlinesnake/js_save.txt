@@ -1,0 +1,240 @@
+//var canvas = document.getElementById('canvas');
+//var ctx = canvas.getContext('2d');
+//ctx.fillRect(10, 10, 30, 50); //fill a rectangle (x, y, width, height)
+
+var ts = 20;
+var tr = new Array(ts);
+var tb = document.getElementById('main'); //Táblázat
+
+var chely = [];
+
+let endgame = 0;
+
+let cirany = 1;
+
+var cinterval;
+
+var pause = false;
+
+var almahely;
+
+//  0
+//3 s 1
+//  2
+
+function start() {
+
+    var tablem = document.getElementById("main");
+    var rowCount = tablem.rows.length;
+    for (var i = 0; i < rowCount; i++) {
+        tablem.deleteRow(0);
+    }
+
+    for (var i = 0; i < ts; i++) { //Amekkora a táblázat, annyiszor fut le (3-szor alapból)
+        var newRow = tb.insertRow(); //Új sor
+        tr[i] = new Array(ts); //Táblázat mentése [1][2]
+
+        for (var j = 0; j < ts; j++) { //Oszlopok
+
+            tr[i][j] = newRow.insertCell(); //Cella létrehozása
+            tr[i][j].id = i * ts + j; //Cella id-je (jelenlegi sor * táblázat nagysága + jelenlegi oszlop a sorban)
+            tr[i][j].style.padding = "0px 0px 0px 0px"; //0px padding
+
+            var imageCell = document.createElement("img"); //Kép létrehozása
+            imageCell.src = 'trans.png'; //Beállítja a létrehozott kép forrását a most következő 'darab'-ra
+            imageCell.style.display = "block";
+
+
+            tr[i][j].style.backgroundColor = '#4f9e00';
+
+            tr[i][j].appendChild(imageCell);
+        }
+    }
+
+    for (var i = 0; i < ts * ts; i++) {
+        if (document.getElementById(i).style.class == 'alma') {
+            document.getElementById(i).style.class = '';
+            document.getElementById(i).style.backgroundColor = '#4f9e00';
+        }
+    }
+
+    cirany = 1;
+
+    endgame = 0;
+
+    chely = [];
+
+    almahely = 0;
+
+    chely.push(parseInt(ts * ts / 2 - 4));
+    chely.push(parseInt(ts * ts / 2 - 3));
+    chely.push(parseInt(ts * ts / 2 - 2));
+    chely.push(parseInt(ts * ts / 2 - 1));
+    chely.push(parseInt(ts * ts / 2));
+    chely.push(parseInt(ts * ts / 2 + 1));
+    chely.push(parseInt(ts * ts / 2 + 2));
+    chely.push(parseInt(ts * ts / 2 + 3));
+    chely.push(parseInt(ts * ts / 2 + 4));
+    console.log(chely);
+
+    randomAlma();
+    cinterval = setInterval(function() {
+        if (pause == false) {
+            gamemain();
+
+            if (endgame == 1) {
+                start();
+                clearInterval(cinterval);
+            }
+        }
+    }, 150);
+}
+
+function randomAlma() {
+    var rnd = Math.floor(Math.random() * ts * ts);
+    almahely = rnd;
+    while (document.getElementById(almahely).childNodes[0].style.backgroundColor == 'rgb(47, 94, 0)') {
+        almahely = Math.floor(Math.random() * ts * ts);
+    }
+}
+
+function gamemain() {
+
+    
+    
+    for (var i = 0; i < ts * ts; i++) {
+        document.getElementById(i).childNodes[0].style.backgroundColor = '#4f9e00';
+    }
+    for (var i = 0; i < chely.length; i++) {
+        document.getElementById(chely[i]).childNodes[0].style.backgroundColor = '#2f5e00';
+        //console.log(chely[i]);
+    }
+    document.getElementById(almahely).childNodes[0].style.backgroundColor = '#FF0000';
+    document.getElementById(almahely).style.class = 'alma';
+    if (cirany == 0) {
+        var cchely = chely[chely.length - 1] - ts;
+        var cclast = chely[0];
+        while (cchely < 0) {
+            endgame = 1;
+            return;
+        }
+
+        document.getElementById(cclast).childNodes[0].style.backgroundColor = '#4f9e00';
+        while (document.getElementById(cchely).childNodes[0].style.backgroundColor == 'rgb(47, 94, 0)') {
+            endgame = 1;
+            return;
+        }
+        document.getElementById(cchely).childNodes[0].style.backgroundColor = '#2f5e00';
+        chely.push(cchely);
+        chely.shift();
+    }
+    if (cirany == 1) {
+        var cchely = chely[chely.length - 1] + 1;
+        var cclast = chely[0];
+        for (var i = 0; i < ts; i++) {
+            if (cchely == i * ts) {
+                endgame = 1;
+                return;
+            }
+        }
+
+        document.getElementById(cclast).childNodes[0].style.backgroundColor = '#4f9e00';
+        while (document.getElementById(cchely).childNodes[0].style.backgroundColor == 'rgb(47, 94, 0)') {
+            endgame = 1;
+            return;
+        }
+        document.getElementById(cchely).childNodes[0].style.backgroundColor = '#2f5e00';
+        chely.push(cchely);
+        chely.shift();
+    }
+    if (cirany == 2) {
+        var cchely = chely[chely.length - 1] + ts;
+        var cclast = chely[0];
+        document.getElementById(cclast).childNodes[0].style.backgroundColor = '#4f9e00';
+        while (cchely > ts * ts) {
+            endgame = 1;
+            return;
+        }
+
+        while (document.getElementById(cchely).childNodes[0].style.backgroundColor == 'rgb(47, 94, 0)') {
+            endgame = 1;
+            return;
+        }
+        document.getElementById(cchely).childNodes[0].style.backgroundColor = '#2f5e00';
+        chely.push(cchely);
+        chely.shift();
+    }
+    if (cirany == 3) {
+        var cchely = chely[chely.length - 1] - 1;
+        var cclast = chely[0];
+        for (var i = 0; i < ts; i++) {
+            if (cchely == i * ts - 1) {
+                endgame = 1;
+                return;
+            }
+        }
+
+        document.getElementById(cclast).childNodes[0].style.backgroundColor = '#4f9e00';
+        while (document.getElementById(cchely).childNodes[0].style.backgroundColor == 'rgb(47, 94, 0)') {
+            endgame = 1;
+            return;
+        }
+        document.getElementById(cchely).childNodes[0].style.backgroundColor = '#2f5e00';
+        chely.push(cchely);
+        chely.shift();
+    }
+    if (document.getElementById(chely[chely.length - 1]).style.class == 'alma') {
+        for (var i = 0; i < ts * ts; i++) {
+            document.getElementById(i).style.class = '';
+        }
+        if (chely[0] + 1 == chely[1]) {
+            chely.unshift(chely[0] - 1);
+        }
+        if (chely[0] - 1 == chely[1]) {
+            chely.unshift(chely[0] + 1);
+        }
+        if (chely[0] - ts == chely[1]) {
+            chely.unshift(chely[0] + ts);
+        }
+        if (chely[0] + ts == chely[1]) {
+            chely.unshift(chely[0] - ts);
+        }
+        randomAlma();
+    }
+}
+
+document.addEventListener('keydown', function(event) {
+    //alert(event.keyCode);
+    switch (event.keyCode) {
+        case 38:
+            //alert('up');
+            if (!pause)
+                if (cirany != 2 && cirany != 0)
+                    cirany = 0;
+            break;
+        case 39:
+            //alert('right');
+            if (!pause)
+                if (cirany != 3 && cirany != 1)
+                    cirany = 1;
+            break;
+        case 40:
+            //alert('down');
+            if (!pause)
+                if (cirany != 0 && cirany != 2)
+                    cirany = 2;
+            break;
+        case 37:
+            //alert('left');
+            if (!pause)
+                if (cirany != 1 && cirany != 3)
+                    cirany = 3;
+            break;
+        case 27:
+            if (pause) pause = false;
+            else pause = true;
+            break;
+    }
+});
+
+start();
