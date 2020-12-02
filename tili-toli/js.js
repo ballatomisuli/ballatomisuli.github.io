@@ -66,6 +66,7 @@ function kep1() {
     canvasn.width = 772;
     canvasn.height = 432;
     updateImageSize2();
+    keveres
 }
 
 //Kép2-re kattintásnál
@@ -127,6 +128,8 @@ var updateImageSize2 = function() {
 
 //Kép felvágása, annyi felé, ahány a 'ta' változó (táblázat nagysága)
 function cutImageUp() {
+
+    lepesek = [];
 
     //Kitörli a meglévő sorokat
     var tablem = document.getElementById("main");

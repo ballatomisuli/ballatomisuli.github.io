@@ -8,10 +8,11 @@ var tsc2 = 5;
 var tr2 = new Array(tsc2);
 var tb2 = document.getElementById('mutato'); //Táblázat
 
+var pontszam = document.getElementById("pontszam");
+var pontok = 0;
+
 
 var ceses = [];
-var obj = 0;
-var nobj = 0;
 
 let cszin = "smi";
 
@@ -41,7 +42,8 @@ function begin() {
     ceses = [];
     birany = "";
     cszin = "smi";
-    obj = 0;
+
+    pontok = 0;
 
     addElement();
 
@@ -66,6 +68,9 @@ var ncount = 0;
 
 function addElement() {
 
+    pontszam.innerHTML = "Pontok: " + pontok;
+    pontok += 1;
+
     for (var i = 0; i < tsc2 * tsr2; i++) {
         if (!document.getElementById("mutato" + i).classList.contains("oldal2")) {
             document.getElementById("mutato" + i).classList = "";
@@ -85,7 +90,7 @@ function addElement() {
         type2 = Math.floor(Math.random() * 7);
         nextElement(type2, rszin2);
         rollElement(type, rszin);
-        ncount++;
+        ncount = 1;
         return;
     }
 }
@@ -121,7 +126,7 @@ function nextElement(typee, rszine) {
     switch (typee) {
         case 0:
             //J
-            nobj = 11;
+            var nobj = 11;
             neses.push(nobj + 2 + tsc2);
             neses.push(nobj + 2);
             neses.push(nobj + 1);
@@ -129,7 +134,7 @@ function nextElement(typee, rszine) {
             break;
         case 1:
             //L
-            nobj = 11;
+            var nobj = 11;
             neses.push(nobj + tsc2);
             neses.push(nobj + 2);
             neses.push(nobj + 1);
@@ -137,7 +142,7 @@ function nextElement(typee, rszine) {
             break;
         case 2:
             //I
-            nobj = 7;
+            var nobj = 7;
             neses.push(nobj);
             neses.push(nobj + tsc2);
             neses.push(nobj + tsc2 + tsc2);
@@ -145,7 +150,7 @@ function nextElement(typee, rszine) {
             break;
         case 3:
             //o
-            nobj = 6;
+            var nobj = 12;
             neses.push(nobj);
             neses.push(nobj + 1);
             neses.push(nobj + tsc2 + 1);
@@ -153,7 +158,7 @@ function nextElement(typee, rszine) {
             break;
         case 4:
             //S
-            nobj = 16;
+            var nobj = 10;
             neses.push(nobj + tsc2);
             neses.push(nobj + tsc2 + 1);
             neses.push(nobj + 1);
@@ -161,7 +166,7 @@ function nextElement(typee, rszine) {
             break;
         case 5:
             //Z
-            nobj = 13;
+            var nobj = 11;
             neses.push(nobj + tsc2 + 1);
             neses.push(nobj + tsc2 + 2);
             neses.push(nobj + 1);
@@ -169,7 +174,7 @@ function nextElement(typee, rszine) {
             break;
         case 6:
             //T
-            nobj = 13;
+            var nobj = 11;
             neses.push(nobj + tsc2 + 2);
             neses.push(nobj + tsc2 + 1);
             neses.push(nobj + tsc2);
@@ -179,16 +184,17 @@ function nextElement(typee, rszine) {
 
     for (var i = 0; i < neses.length; i++) {
         //document.getElementById("mutato" + neses[i]).classList.add(cszin);
+        var nobj = 0;
         document.getElementById("mutato" + neses[i]).childNodes[0].childNodes[1].classList.add(cszin);
     }
-    return;
+    neses = [];
 }
 
-function rollElement(type, rszin) {
+function rollElement(typee, rszine) {
     ceses = null;
     ceses = [];
-    ctype = type;
-    switch (rszin) {
+    ctype = typee;
+    switch (rszine) {
         case 0:
             cszin = "piros";
             break;
@@ -214,42 +220,42 @@ function rollElement(type, rszin) {
             cszin = "lila";
             break;
     }
-    switch (type) {
+    switch (typee) {
         case 0:
             //J
-            obj = 21;
+            var obj = 21;
             ceses.push(obj + 2 + tsc);
             ceses.push(obj + 2);
             ceses.push(obj + 1);
             ceses.push(obj);
             document.getElementById(obj + 2 + tsc).classList.add(cszin);
-            document.getElementById(obj).classList.add(cszin);
-            document.getElementById(obj + 1).classList.add(cszin);
             document.getElementById(obj + 2).classList.add(cszin);
+            document.getElementById(obj + 1).classList.add(cszin);
+            document.getElementById(obj).classList.add(cszin);
             document.getElementById(obj + 2 + tsc).classList.remove("hatter");
-            document.getElementById(obj).classList.remove("hatter");
-            document.getElementById(obj + 1).classList.remove("hatter");
             document.getElementById(obj + 2).classList.remove("hatter");
+            document.getElementById(obj + 1).classList.remove("hatter");
+            document.getElementById(obj).classList.remove("hatter");
             break;
         case 1:
             //L
-            obj = 21;
+            var obj = 21;
             ceses.push(obj + tsc);
             ceses.push(obj + 2);
             ceses.push(obj + 1);
             ceses.push(obj);
             document.getElementById(obj + tsc).classList.add(cszin);
-            document.getElementById(obj).classList.add(cszin);
-            document.getElementById(obj + 1).classList.add(cszin);
             document.getElementById(obj + 2).classList.add(cszin);
+            document.getElementById(obj + 1).classList.add(cszin);
+            document.getElementById(obj).classList.add(cszin);
             document.getElementById(obj + tsc).classList.remove("hatter");
-            document.getElementById(obj).classList.remove("hatter");
-            document.getElementById(obj + 1).classList.remove("hatter");
             document.getElementById(obj + 2).classList.remove("hatter");
+            document.getElementById(obj + 1).classList.remove("hatter");
+            document.getElementById(obj).classList.remove("hatter");
             break;
         case 2:
             //I
-            obj = 21;
+            var obj = 21;
             ceses.push(obj);
             ceses.push(obj + tsc);
             ceses.push(obj + tsc + tsc);
@@ -265,23 +271,23 @@ function rollElement(type, rszin) {
             break;
         case 3:
             //o
-            obj = 21;
-            ceses.push(obj + 1);
+            var obj = 21;
             ceses.push(obj);
+            ceses.push(obj + 1);
             ceses.push(obj + tsc + 1);
             ceses.push(obj + tsc);
-            document.getElementById(obj + tsc + 2).classList.add(cszin);
+            document.getElementById(obj + 1).classList.add(cszin);
+            document.getElementById(obj + tsc).classList.add(cszin);
             document.getElementById(obj + tsc + 1).classList.add(cszin);
             document.getElementById(obj + tsc).classList.add(cszin);
-            document.getElementById(obj + 1).classList.add(cszin);
-            document.getElementById(obj + tsc + 2).classList.remove("hatter");
+            document.getElementById(obj + 1).classList.remove("hatter");
+            document.getElementById(obj + tsc).classList.remove("hatter");
             document.getElementById(obj + tsc + 1).classList.remove("hatter");
             document.getElementById(obj + tsc).classList.remove("hatter");
-            document.getElementById(obj + 1).classList.remove("hatter");
             break;
         case 4:
             //S
-            obj = 21;
+            var obj = 21;
             ceses.push(obj + tsc);
             ceses.push(obj + tsc + 1);
             ceses.push(obj + 1);
@@ -297,7 +303,7 @@ function rollElement(type, rszin) {
             break;
         case 5:
             //Z
-            obj = 21;
+            var obj = 21;
             ceses.push(obj + tsc + 1);
             ceses.push(obj + tsc + 2);
             ceses.push(obj + 1);
@@ -313,7 +319,7 @@ function rollElement(type, rszin) {
             break;
         case 6:
             //T
-            obj = 21;
+            var obj = 21;
             ceses.push(obj + tsc + 2);
             ceses.push(obj + tsc + 1);
             ceses.push(obj + tsc);

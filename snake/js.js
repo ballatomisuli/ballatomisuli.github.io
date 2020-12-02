@@ -12,6 +12,9 @@ let cirany = 1;
 
 var pause = false;
 
+var pontszam = document.getElementById("pontszam");
+var pontok = 0;
+
 //  0
 //3 s 1
 //  2
@@ -96,6 +99,10 @@ function begin() {
 
     chely = [];
 
+    pontok = 3;
+
+    pontszam.innerHTML = "Kukac Hossza: " + chely.length + "<br>Pálya Nagysága: " + ts + "x" + ts;
+
     chely.push(parseInt(150));
     chely.push(parseInt(151));
     chely.push(parseInt(152));
@@ -115,6 +122,7 @@ function randomAlma() {
     }
     var almahely = rnd;
     document.getElementById(almahely).style.class = 'alma';
+
 }
 
 function randomBomba() {
@@ -187,6 +195,7 @@ function gamemain() {
         }
         randomAlma();
         removeBomba();
+        pontszam.innerHTML = "Kukac Hossza: " + chely.length + "<br>Pálya Nagysága: " + ts + "x" + ts;
     } else if (document.getElementById(chely[chely.length - 1]).style.class == 'bomba') {
         if (chely.length <= 3) {
             endgame = 1;
@@ -198,6 +207,7 @@ function gamemain() {
         chely.shift();
         chely.shift();
         randomBomba();
+        pontszam.innerHTML = "Kukac Hossza: " + chely.length + "<br>Pálya Nagysága: " + ts + "x" + ts;
     }
 
     switch (cirany) {
