@@ -188,10 +188,10 @@ function begin() {
 
     //pontszam.innerHTML = "Kukac Hossza: " + chely2.length + "<br>Pálya Nagysága: " + ts + "x" + ts;
 
-    randomAlma();
-    randomBomba();
-    randomBomba();
-    randomBomba();
+    //randomAlma();
+    //randomBomba();
+    //randomBomba();
+    //randomBomba();
 }
 
 function randomAlma() {
@@ -309,10 +309,10 @@ function gamemain() {
                 return;
             }
 
-            if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
+            /*if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
                 endgame = 1;
                 return;
-            }
+            }*/
             document.getElementById(cclast).childNodes[0].style.class = 'hatter';
             document.getElementById(cchely).childNodes[0].style.class = 'kigyo';
             chely.push(cchely);
@@ -328,10 +328,10 @@ function gamemain() {
                 }
             }
 
-            if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
+            /*if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
                 endgame = 1;
                 return;
-            }
+            }*/
             document.getElementById(cclast).childNodes[0].style.class = 'hatter';
             document.getElementById(cchely).childNodes[0].style.class = 'kigyo';
             chely.push(cchely);
@@ -345,10 +345,10 @@ function gamemain() {
                 return;
             }
 
-            if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
+            /*if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
                 endgame = 1;
                 return;
-            }
+            }*/
             document.getElementById(cclast).childNodes[0].style.class = 'hatter';
             document.getElementById(cchely).childNodes[0].style.class = 'kigyo';
             chely.push(cchely);
@@ -364,10 +364,10 @@ function gamemain() {
                 }
             }
 
-            if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
+            /*if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
                 endgame = 1;
                 return;
-            }
+            }*/
             document.getElementById(cclast).childNodes[0].style.class = 'hatter';
             document.getElementById(cchely).childNodes[0].style.class = 'kigyo';
             chely.push(cchely);
