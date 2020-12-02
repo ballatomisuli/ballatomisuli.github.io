@@ -63,8 +63,23 @@ webconnection.addListener({
             webconnection.subscribe({
                 channels: [listenchannel]
             });
+        } else if (obj.message.includes("vege")) {
+            console.log("vege: " + obj.message);
+            channel = "game-abcd";
+            webconnection.subscribe({
+                channels: [channel]
+            });
         }
     }
+});
+
+window.addEventListener("beforeunload", function(event) {
+    var vegesend = enidm + "vege";
+    webconnection.publish({
+        channel: channel,
+        message: vegesend
+    });
+    //debugger;
 });
 
 webconnection.subscribe({
