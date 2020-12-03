@@ -19,72 +19,121 @@ var pontok = 0;
 
 var enidm = Math.floor(Math.random() * 10000000);
 
-var webconnection = new WebConnection({
-    publishKey: 'pub-c-687ad61e-1d40-47c1-97e3-159673a865b7',
-    subscribeKey: 'sub-c-08e2f2cc-34cf-11eb-b6eb-96faa39b9528'
-});
+var ckigyo2 = [];
 
-function $(id) {
-    return document.getElementById(id);
+var connections = 0;
+
+function setCookie(name, value, days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
-var channel = 'game-abcd';
-var firstsend = enidm + "csatlakoztam";
-var lastsplit = [];
-webconnection.publish({
-    channel: channel,
-    message: firstsend
-});
-webconnection.addListener({
-    message: function(obj) {
-        if (obj.message.startsWith(enidm.toString())) {
-
-        } else if (obj.message.includes("csatlakoztam")) {
-            console.log("csatlakozott más valaki");
-            var masodiksend = enidm + "tevagyamasodik";
-            webconnection.publish({
-                channel: channel,
-                message: masodiksend
-            });
-            channel = "game-abcd1";
-        } else if (obj.message.includes("mozgás")) {
-            console.log("küldött: " + obj.message);
-            var splitmsg = obj.message.split(" ");
-            for (var i = 0; i < ts * ts; i++) {
-                if (document.getElementById(i).childNodes[0].style.class == 'kigyo2')
-                    document.getElementById(i).childNodes[0].style.class = 'hatter';
-            }
-            for (var i = 1; i < splitmsg.length - 1; i++) {
-                document.getElementById(splitmsg[i]).childNodes[0].style.class = 'kigyo2';
-            }
-        } else if (obj.message.includes("tevagyamasodik")) {
-            console.log("küldött vissza jelet: " + obj.message);
-            var listenchannel = "game-abcd1";
-            webconnection.subscribe({
-                channels: [listenchannel]
-            });
-        } else if (obj.message.includes("vege")) {
-            console.log("vege: " + obj.message);
-            channel = "game-abcd";
-            webconnection.subscribe({
-                channels: [channel]
-            });
-        }
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
     }
-});
+    return null;
+}
 
-window.addEventListener("beforeunload", function(event) {
-    var vegesend = enidm + "vege";
-    webconnection.publish({
-        channel: channel,
-        message: vegesend
-    });
-    //debugger;
-});
+const socket = io('http://localhost:3000')
+const messageContainer = document.getElementById('message-container')
+const messageForm = document.getElementById('send-container')
+const messageInput = document.getElementById('message-input')
 
-webconnection.subscribe({
-    channels: [channel]
-});
+host = false;
+
+name = getCookie("nickname");
+
+if (name == "null") {
+    name = prompt('Mi a neved?')
+    setCookie('nickname', name, 14);
+}
+appendMessage('Sikeresen Beléptél')
+socket.emit('new-user', name)
+
+socket.on('chat-message', data => {
+    appendMessage(`${data.name}: ${data.message}`)
+})
+
+socket.on('vege-broadcast', data => {
+    alert("Gratulálok, Nyertél!");
+    //start();
+    history.go();
+    //appendMessage(`${data.name}: ${data.message}`)
+})
+
+socket.on('en-host', data => {
+    host = true;
+    randomAlma();
+    //appendMessage(`${data.name}: ${data.message}`)
+})
+
+socket.on('bomba-spawn', data => {
+    /*for (var i = 0; i < ts * ts; i++) {
+        if (document.getElementById(i).style.class == 'bomba')
+            document.getElementById(i).style.class = '';
+    }*/
+    document.getElementById(data.message).style.class = 'bomba';
+})
+
+socket.on('bomba-remove', data => {
+    /*for (var i = 0; i < ts * ts; i++) {
+        if (document.getElementById(i).style.class == 'bomba')
+            document.getElementById(i).style.class = '';
+    }*/
+    document.getElementById(data.message).style.class = '';
+})
+
+socket.on('alma-spawn', data => {
+    console.log("new alma");
+    for (var i = 0; i < ts * ts; i++) {
+        if (document.getElementById(i).style.class == 'alma')
+            document.getElementById(i).style.class = '';
+    }
+    document.getElementById(data.message).style.class = 'alma';
+})
+
+socket.on('kigyo-message', data => {
+    //appendMessage(`${data.name}: ${data.message}`);
+    //console.log(data.name + "-" + name);
+    //console.log(socket.id);
+    chely2 = [];
+    var splitmsg = data.message.toString().split(",");
+    for (var i = 0; i < splitmsg.length; i++) {
+        chely2.push(splitmsg[i]);
+    }
+    //console.log(data.name + " " + chely);
+
+    //console.log(localStorage.getItem("chely2"));
+})
+
+socket.on('user-connected', asd => {
+    appendMessage(`${asd} Csatlakozott`);
+})
+
+socket.on('user-disconnected', name => {
+    appendMessage(`${name} Kilépett`)
+})
+
+socket.on('tulsokplayer', name => {
+    alert("Túl sok játékos van ebben a szobában");
+    history.go();
+})
+
+function appendMessage(message) {
+    const messageElement = document.createElement('div')
+    messageElement.innerText = message
+    messageContainer.append(messageElement)
+}
 
 //  0
 //3 s 1
@@ -121,10 +170,10 @@ document.addEventListener('keydown', function(event) {
                 if (cirany != 1)
                     setirany = 3;
             break;
-        case 27:
-            if (pause) pause = false;
-            else pause = true;
-            break;
+            /*case 27:
+                if (pause) pause = false;
+                else pause = true;
+                break;*/
     }
 });
 
@@ -180,15 +229,17 @@ function begin() {
 
     pontszam.innerHTML = "Kukac Hossza: " + chely.length + "<br>Pálya Nagysága: " + ts + "x" + ts;
 
-    chely.push(parseInt(150));
-    chely.push(parseInt(151));
-    chely.push(parseInt(152));
+    var spawnhely = Math.floor(Math.random() * ts * ts - 1);
+
+    chely.push(spawnhely);
+    chely.push(spawnhely + 1);
+    chely.push(spawnhely + 2);
 
     pontok = 3;
 
-    //pontszam.innerHTML = "Kukac Hossza: " + chely2.length + "<br>Pálya Nagysága: " + ts + "x" + ts;
-
-    //randomAlma();
+    pontszam.innerHTML = "Kukac Hossza: " + chely2.length + "<br>Pálya Nagysága: " + ts + "x" + ts;
+    if (host)
+        randomAlma();
     //randomBomba();
     //randomBomba();
     //randomBomba();
@@ -203,7 +254,7 @@ function randomAlma() {
     }
     var almahely = rnd;
     document.getElementById(almahely).style.class = 'alma';
-
+    socket.emit("almaspawn", almahely);
 }
 
 function randomBomba() {
@@ -215,6 +266,7 @@ function randomBomba() {
     }
     var bombahely = rnd;
     document.getElementById(bombahely).style.class = 'bomba';
+    socket.emit("bombaspawn", bombahely);
 }
 
 function removeBomba() {
@@ -229,9 +281,38 @@ function removeBomba() {
     var bombahely = rnd;
 
     document.getElementById(bombak[rnd]).style.class = '';
+    socket.emit("bombaremove", bombak[rnd]);
+}
+
+function updateBack() {
+    for (var i = 0; i < ts * ts; i++) {
+        if (document.getElementById(i).childNodes[0].style.class == 'kigyo2') {
+            document.getElementById(i).childNodes[0].style.class = 'hatter';
+        }
+
+        //chely2 = localStorage.getItem("chely2");
+
+        for (var b = 0; b < chely2.length; b++) {
+            document.getElementById(chely2[b]).childNodes[0].style.class = "kigyo2";
+        }
+
+        if (document.getElementById(i).childNodes[0].style.class == 'kigyo') {
+            document.getElementById(i).childNodes[0].style.backgroundColor = '#2f5e00';
+        } else if (document.getElementById(i).childNodes[0].style.class == 'kigyo2') {
+            document.getElementById(i).childNodes[0].style.backgroundColor = '#0377fc';
+        } else if (document.getElementById(i).style.class == 'bomba') {
+            document.getElementById(i).childNodes[0].style.backgroundColor = '#000000';
+        } else if (document.getElementById(i).style.class == 'alma') {
+            document.getElementById(i).childNodes[0].style.backgroundColor = '#FF0000';
+        } else {
+            document.getElementById(i).childNodes[0].style.backgroundColor = '#4f9e00';
+        }
+    }
 }
 
 function gamemain() {
+
+    //console.log(localStorage.getItem("myname"));
 
     /*var send = enidm + " hely: " + chely + " mozgás";
     webconnection.publish({
@@ -252,20 +333,6 @@ function gamemain() {
         case 3:
             cirany = 3;
             break;
-    }
-
-    for (var i = 0; i < ts * ts; i++) {
-        if (document.getElementById(i).childNodes[0].style.class == 'kigyo') {
-            document.getElementById(i).childNodes[0].style.backgroundColor = '#2f5e00';
-        } else if (document.getElementById(i).childNodes[0].style.class == 'kigyo2') {
-            document.getElementById(i).childNodes[0].style.backgroundColor = '#0377fc';
-        } else if (document.getElementById(i).style.class == 'bomba') {
-            document.getElementById(i).childNodes[0].style.backgroundColor = '#000000';
-        } else if (document.getElementById(i).style.class == 'alma') {
-            document.getElementById(i).childNodes[0].style.backgroundColor = '#FF0000';
-        } else {
-            document.getElementById(i).childNodes[0].style.backgroundColor = '#4f9e00';
-        }
     }
 
     if (document.getElementById(chely[chely.length - 1]).style.class == 'alma') {
@@ -295,6 +362,7 @@ function gamemain() {
         document.getElementById(chely[1]).childNodes[0].style.class = '';
         chely.shift();
         chely.shift();
+        socket.emit("bombaremove", chely[chely.length - 1]);
         randomBomba();
         pontszam.innerHTML = "Kukac Hossza: " + chely.length + "<br>Pálya Nagysága: " + ts + "x" + ts;
     }
@@ -309,10 +377,10 @@ function gamemain() {
                 return;
             }
 
-            /*if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
+            if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
                 endgame = 1;
                 return;
-            }*/
+            }
             document.getElementById(cclast).childNodes[0].style.class = 'hatter';
             document.getElementById(cchely).childNodes[0].style.class = 'kigyo';
             chely.push(cchely);
@@ -328,10 +396,10 @@ function gamemain() {
                 }
             }
 
-            /*if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
+            if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
                 endgame = 1;
                 return;
-            }*/
+            }
             document.getElementById(cclast).childNodes[0].style.class = 'hatter';
             document.getElementById(cchely).childNodes[0].style.class = 'kigyo';
             chely.push(cchely);
@@ -345,10 +413,10 @@ function gamemain() {
                 return;
             }
 
-            /*if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
+            if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
                 endgame = 1;
                 return;
-            }*/
+            }
             document.getElementById(cclast).childNodes[0].style.class = 'hatter';
             document.getElementById(cchely).childNodes[0].style.class = 'kigyo';
             chely.push(cchely);
@@ -364,51 +432,45 @@ function gamemain() {
                 }
             }
 
-            /*if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
+            if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
                 endgame = 1;
                 return;
-            }*/
+            }
             document.getElementById(cclast).childNodes[0].style.class = 'hatter';
             document.getElementById(cchely).childNodes[0].style.class = 'kigyo';
             chely.push(cchely);
             chely.shift();
             break;
     }
-}
 
-function sendConnection() {
-    var send2 = enidm + "mozgás ";
-    for (var i = 0; i < chely.length; i++) {
-        send2 = send2 + chely[i] + " ";
-    }
-    webconnection.publish({
-        channel: channel,
-        message: send2
-    });
 }
-
 
 start();
 
 binterval = setInterval(function() {
-    if (pause == false) {
+    if (host)
         randomBomba();
-    }
 }, 3000);
 
 cinterval = setInterval(function() {
+    updateBack();
     if (pause == false) {
         gamemain();
-        sendConnection();
+        socket.emit('kigyohely', chely);
+
+        console.log(host);
 
         //console.log(chely.length);
 
-        if (gameover == 1) {
-            start();
-        }
+        //if (gameover == 1) {
+        //start();
+        //}
 
         if (endgame == 1) {
-            gameover = 1;
+            socket.emit('vege', name);
+            alert("Sajnos Vesztettél :/");
+            history.go();
+            //gameover = 1;
         }
     }
 }, 150);
