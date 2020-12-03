@@ -107,7 +107,7 @@ var started = false;
 
 //http://snakeee-online.herokuapp.com:3000/socket.io/socket.io.js
 
-const socket = io.connect('http://snakeee-online.herokuapp.com')
+const socket = io.connect('http://snakeee-online.herokuapp.com:3000')
 const messageContainer = document.getElementById('message-container')
 const messageForm = document.getElementById('send-container')
 const messageInput = document.getElementById('message-input')
