@@ -127,15 +127,16 @@ function startsocket() {
     })
 
     socket.on('vege-broadcast', data => {
-        alert("Gratulálok, Nyertél!");
-        //start();
-        history.go();
+        console.log("vege0");
+        if (data.message.toString().startsWith(szoba.toString())) {
+            console.log("vege");
+            alert("Gratulálok, Nyertél!");
+            history.go();
+        }
     })
 
     socket.on('start-game', data => {
-        console.log("start-game");
         if (data.message == szoba) {
-            console.log("elindult");
             host = false;
             start();
         }
@@ -279,23 +280,19 @@ function start() {
         updateBack();
         if (pause == false) {
             gamemain();
+            if (gameover == 1) {
+                socket.emit('vege', szoba.toString());
+                history.go();
+                alert("Sajnos Vesztettél :/");
+                clearInterval(cinterval);
+            }
+            if (endgame == 1) {
+                gameover = 1;
+            }
             socket.emit('kigyohely', szoba + " " + chely);
+            updateBack();
 
             //console.log(chely.length);
-
-
-
-            /*if (gameover == 1) {
-                start();
-            }*/
-
-            if (endgame == 1) {
-                socket.emit('vege', name);
-                alert("Sajnos Vesztettél :/");
-                history.go();
-                clearInterval(cinterval);
-                endgame = 0;
-            }
         }
     }, 150);
 
@@ -311,8 +308,6 @@ function begin() {
     cirany = 1;
     cirany2 = 1;
 
-    endgame = 0;
-    gameover = 0;
     setirany = 1;
     setirany2 = 3;
 
@@ -473,7 +468,6 @@ function gamemain() {
 
             if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
                 endgame = 1;
-                return;
             }
             document.getElementById(cclast).childNodes[0].style.class = 'hatter';
             document.getElementById(cchely).childNodes[0].style.class = 'kigyo';
@@ -492,7 +486,6 @@ function gamemain() {
 
             if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
                 endgame = 1;
-                return;
             }
             document.getElementById(cclast).childNodes[0].style.class = 'hatter';
             document.getElementById(cchely).childNodes[0].style.class = 'kigyo';
@@ -509,7 +502,6 @@ function gamemain() {
 
             if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
                 endgame = 1;
-                return;
             }
             document.getElementById(cclast).childNodes[0].style.class = 'hatter';
             document.getElementById(cchely).childNodes[0].style.class = 'kigyo';
@@ -528,7 +520,6 @@ function gamemain() {
 
             if (document.getElementById(cchely).childNodes[0].style.class == 'kigyo' || document.getElementById(cchely).childNodes[0].style.class == 'kigyo2') {
                 endgame = 1;
-                return;
             }
             document.getElementById(cclast).childNodes[0].style.class = 'hatter';
             document.getElementById(cchely).childNodes[0].style.class = 'kigyo';
