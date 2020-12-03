@@ -283,6 +283,8 @@ function start() {
 
             //console.log(chely.length);
 
+
+
             /*if (gameover == 1) {
                 start();
             }*/
