@@ -281,18 +281,16 @@ function start() {
             gamemain();
             socket.emit('kigyohely', szoba + " " + chely);
 
-            console.log(host);
-
             //console.log(chely.length);
 
-            //if (gameover == 1) {
-            //start();
-            //}
+            /*if (gameover == 1) {
+                start();
+            }*/
 
             if (endgame == 1) {
-                //socket.emit('vege', name);
-                //alert("Sajnos Vesztettél :/");
-                //history.go();
+                socket.emit('vege', name);
+                alert("Sajnos Vesztettél :/");
+                history.go();
                 endgame = 0;
             }
         }
