@@ -6,43 +6,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel='stylesheet' href='css.css'>
-    <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
-    <script defer src="script.js"></script>
+    <script defer src="http://snakeee-online.herokuapp.com/socket.io/socket.io.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 
 <body>
 
-    <div><input id=input placeholder="message" /></div>
-    Chat Output
-    <div id=box></div>
-
-    <div class='maindiv' id='maindiv' placeholder="connection">
-        <table id='felosztas'>
-            <tr>
-                <td id='t1'>
-
-                    <h2 id="pontszam">Kukac Hossza: <br>Pálya Nagysága: </h2>
-                </td>
-                <td id='t2'>
-                    <div class='maindiv2' id='maindiv2'>
-
-                        <table id='main'>
-
-                        </table>
-
-                    </div>
-                </td>
-            </tr>
-        </table>
+    <div class="login" id="login">
+        <h1>Snake Online</h1>
+        <input id="usernametext" type="text" name="u" placeholder="Username" required="required" />
+        <button id="createRoom" class="btn btn-primary btn-block btn-large">Create Room</button>
+        <input id="joinRoomtext" type="text" name="rc" placeholder="Roomcode" />
+        <button id="joinRoom" class="btn btn-primary btn-block btn-large">Join Room</button>
     </div>
 
-    <div class="comm"></div>
+    <div class="all" id="all">
 
-    <div id="message-container"></div>
+        <div><input id=input placeholder="message" /></div>
+        Chat Output
+        <div id=box></div>
+
+        <div class='maindiv' id='maindiv' placeholder="connection">
+            <table id='felosztas'>
+                <tr>
+                    <td id='t1'>
+
+                        <h2 id="pontszam">Kukac Hossza: <br>Pálya Nagysága: </h2>
+                    </td>
+                    <td id='t2'>
+                        <div class='maindiv2' id='maindiv2'>
+
+                            <table id='main'>
+
+                            </table>
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="comm"></div>
+
+        <div id="message-container"></div>
+    </div>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-    <script src='js.js'></script>
+    <script src='./js.js'></script>
 
 </body>
 

@@ -44,95 +44,157 @@ function getCookie(name) {
     return null;
 }
 
-const socket = io('http://localhost:3000')
-const messageContainer = document.getElementById('message-container')
-const messageForm = document.getElementById('send-container')
-const messageInput = document.getElementById('message-input')
-
-host = false;
+document.getElementById("all").style.display = "none";
 
 name = getCookie("nickname");
 
-if (name == "null") {
-    name = prompt('Mi a neved?')
-    setCookie('nickname', name, 14);
+if (name != "null") {
+    console.log(name);
+    document.getElementById("usernametext").value = name;
 }
-appendMessage('Sikeresen Beléptél')
-socket.emit('new-user', name)
 
-socket.on('chat-message', data => {
-    appendMessage(`${data.name}: ${data.message}`)
-})
 
-socket.on('vege-broadcast', data => {
-    alert("Gratulálok, Nyertél!");
-    //start();
-    history.go();
-    //appendMessage(`${data.name}: ${data.message}`)
-})
+var szoba = "ioauzgfoiaegfoigaesoif";
 
-socket.on('en-host', data => {
-    host = true;
-    randomAlma();
-    //appendMessage(`${data.name}: ${data.message}`)
-})
-
-socket.on('bomba-spawn', data => {
-    /*for (var i = 0; i < ts * ts; i++) {
-        if (document.getElementById(i).style.class == 'bomba')
-            document.getElementById(i).style.class = '';
-    }*/
-    document.getElementById(data.message).style.class = 'bomba';
-})
-
-socket.on('bomba-remove', data => {
-    /*for (var i = 0; i < ts * ts; i++) {
-        if (document.getElementById(i).style.class == 'bomba')
-            document.getElementById(i).style.class = '';
-    }*/
-    document.getElementById(data.message).style.class = '';
-})
-
-socket.on('alma-spawn', data => {
-    console.log("new alma");
-    for (var i = 0; i < ts * ts; i++) {
-        if (document.getElementById(i).style.class == 'alma')
-            document.getElementById(i).style.class = '';
+function makeid(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    document.getElementById(data.message).style.class = 'alma';
+    return result;
+}
+
+document.getElementById("createRoom").addEventListener("click", function() {
+    //createRoom(document.getElementById("usernametext").value);
+    name = document.getElementById("usernametext").value;
+    setCookie('nickname', name, 14);
+    createRoom();
 })
 
-socket.on('kigyo-message', data => {
-    //appendMessage(`${data.name}: ${data.message}`);
-    //console.log(data.name + "-" + name);
-    //console.log(socket.id);
-    chely2 = [];
-    var splitmsg = data.message.toString().split(",");
-    for (var i = 0; i < splitmsg.length; i++) {
-        chely2.push(splitmsg[i]);
-    }
-    //console.log(data.name + " " + chely);
-
-    //console.log(localStorage.getItem("chely2"));
+document.getElementById("joinRoom").addEventListener("click", function() {
+    //createRoom(document.getElementById("usernametext").value);
+    name = document.getElementById("joinRoomtext").value;
+    joinRoom(name);
 })
 
-socket.on('user-connected', asd => {
-    appendMessage(`${asd} Csatlakozott`);
-})
+function createRoom() {
+    document.getElementById("all").style.display = "block";
+    document.getElementById("login").style.display = "none";
 
-socket.on('user-disconnected', name => {
-    appendMessage(`${name} Kilépett`)
-})
+    szoba = makeid(5);
 
-socket.on('tulsokplayer', name => {
-    alert("Túl sok játékos van ebben a szobában");
-    history.go();
-})
+    appendMessage("System: Szoba kódja: " + szoba.toString());
+
+    console.log(szoba);
+
+    startsocket();
+}
+
+function joinRoom(cszoba) {
+    document.getElementById("all").style.display = "block";
+    document.getElementById("login").style.display = "none";
+
+    szoba = cszoba;
+
+    startsocket()
+}
+
+host = false;
+
+var started = false;
+
+//http://snakeee-online.herokuapp.com:3000/socket.io/socket.io.js
+
+const socket = io.connect('http://snakeee-online.herokuapp.com')
+const messageContainer = document.getElementById('message-container')
+const messageForm = document.getElementById('send-container')
+const messageInput = document.getElementById('message-input')
 
 function appendMessage(message) {
     const messageElement = document.createElement('div')
     messageElement.innerText = message
     messageContainer.append(messageElement)
+}
+
+function startsocket() {
+
+    socket.emit('new-user', szoba + " " + name);
+
+    socket.on('chat-message', data => {
+        appendMessage(`${data.name}: ${data.message}`)
+    })
+
+    socket.on('vege-broadcast', data => {
+        alert("Gratulálok, Nyertél!");
+        //start();
+        history.go();
+    })
+
+    socket.on('start-game', data => {
+        console.log("start-game");
+        if (data.message == szoba) {
+            console.log("elindult");
+            host = false;
+            start();
+        }
+    })
+
+    socket.on('bomba-spawn', data => {
+        if (data.message.startsWith(szoba)) {
+            document.getElementById(data.message.toString().split(" ")[1]).style.class = 'bomba';
+        }
+    })
+
+    socket.on('bomba-remove', data => {
+        if (data.message.startsWith(szoba)) {
+            document.getElementById(data.message.toString().split(" ")[1]).style.class = '';
+        }
+    })
+
+    socket.on('alma-spawn', data => {
+        if (data.message.startsWith(szoba)) {
+            console.log("new alma");
+            for (var i = 0; i < ts * ts; i++) {
+                if (document.getElementById(i).style.class == 'alma')
+                    document.getElementById(i).style.class = '';
+            }
+            document.getElementById(data.message.toString().split(" ")[1]).style.class = 'alma';
+        }
+    })
+
+    socket.on('kigyo-message', data => {
+        if (data.message.startsWith(szoba)) {
+            console.log("kigyo kaptam");
+            chely2 = [];
+            var splitfirst = data.message.toString().split(" ");
+            var splitmsg = splitfirst[1].split(",");
+            for (var i = 0; i < splitmsg.length; i++) {
+                chely2.push(splitmsg[i]);
+            }
+        }
+    })
+
+    socket.on('user-connected', name => {
+        if (name.startsWith(szoba)) {
+            appendMessage(`${name} Csatlakozott`);
+            host = true;
+            socket.emit('startgame', szoba);
+            started = true;
+            start();
+        }
+    })
+
+    socket.on('user-disconnected', name => {
+        if (name.startsWith(szoba))
+            appendMessage(`${name} Kilépett`)
+    })
+
+    socket.on('tulsokplayer', name => {
+        alert("Túl sok játékos van ebben a szobában");
+        history.go();
+    })
 }
 
 //  0
@@ -206,6 +268,36 @@ function start() {
             tr[i][j].appendChild(imageCell);
         }
     }
+
+    binterval = setInterval(function() {
+        if (host)
+            if (started)
+                randomBomba();
+    }, 3000);
+
+    cinterval = setInterval(function() {
+        updateBack();
+        if (pause == false) {
+            gamemain();
+            socket.emit('kigyohely', szoba + " " + chely);
+
+            console.log(host);
+
+            //console.log(chely.length);
+
+            //if (gameover == 1) {
+            //start();
+            //}
+
+            if (endgame == 1) {
+                //socket.emit('vege', name);
+                //alert("Sajnos Vesztettél :/");
+                //history.go();
+                endgame = 0;
+            }
+        }
+    }, 150);
+
     begin();
 }
 
@@ -239,10 +331,11 @@ function begin() {
 
     pontszam.innerHTML = "Kukac Hossza: " + chely2.length + "<br>Pálya Nagysága: " + ts + "x" + ts;
     if (host)
-        randomAlma();
-    //randomBomba();
-    //randomBomba();
-    //randomBomba();
+        if (started)
+            randomAlma();
+        //randomBomba();
+        //randomBomba();
+        //randomBomba();
 }
 
 function randomAlma() {
@@ -254,7 +347,7 @@ function randomAlma() {
     }
     var almahely = rnd;
     document.getElementById(almahely).style.class = 'alma';
-    socket.emit("almaspawn", almahely);
+    socket.emit("almaspawn", szoba + " " + almahely);
 }
 
 function randomBomba() {
@@ -266,7 +359,7 @@ function randomBomba() {
     }
     var bombahely = rnd;
     document.getElementById(bombahely).style.class = 'bomba';
-    socket.emit("bombaspawn", bombahely);
+    socket.emit("bombaspawn", szoba + " " + bombahely);
 }
 
 function removeBomba() {
@@ -281,7 +374,7 @@ function removeBomba() {
     var bombahely = rnd;
 
     document.getElementById(bombak[rnd]).style.class = '';
-    socket.emit("bombaremove", bombak[rnd]);
+    socket.emit("bombaremove", szoba + " " + bombak[rnd]);
 }
 
 function updateBack() {
@@ -444,33 +537,3 @@ function gamemain() {
     }
 
 }
-
-start();
-
-binterval = setInterval(function() {
-    if (host)
-        randomBomba();
-}, 3000);
-
-cinterval = setInterval(function() {
-    updateBack();
-    if (pause == false) {
-        gamemain();
-        socket.emit('kigyohely', chely);
-
-        console.log(host);
-
-        //console.log(chely.length);
-
-        //if (gameover == 1) {
-        //start();
-        //}
-
-        if (endgame == 1) {
-            socket.emit('vege', name);
-            alert("Sajnos Vesztettél :/");
-            history.go();
-            //gameover = 1;
-        }
-    }
-}, 150);
