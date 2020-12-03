@@ -293,8 +293,8 @@ function start() {
                 socket.emit('vege', name);
                 alert("Sajnos Vesztettél :/");
                 history.go();
-                endgame = 0;
                 clearInterval(cinterval);
+                endgame = 0;
             }
         }
     }, 150);
