@@ -294,6 +294,7 @@ function start() {
                 alert("Sajnos Vesztettél :/");
                 history.go();
                 endgame = 0;
+                clearInterval(cinterval);
             }
         }
     }, 150);
